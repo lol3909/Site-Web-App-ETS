@@ -1,49 +1,44 @@
-//Fade in effects
-$('#member-title').toggle("fade",1500);
-$('#partner-title').toggle("fade",1500);
+const memberTitle = $('#member-title');
+const partnerTitle = $('#partner-title');
+const navToggler = $('#nav-toggler');
+const navToggleContent = $('#navToggleContent');
+const navbar = $('#navbar');
+const mainContent = $('#main-content');
+const memberContact = $('#member-contact');
+const partnerContact = $('#partner-contact');
+const memberFormContent = $('.member-form-content');
+const partnerFormContent = $('.partner-form-content');
+const formContainer = $('#form-container');
 
-/**
- * Open up the menu bar when selected
- */
-document.querySelector("#floatingToggle").addEventListener("click", function () {
+memberTitle.fadeToggle(1500);
+partnerTitle.fadeToggle(1500);
+
+document.querySelector("#floatingToggle").addEventListener("click", () => {
     document.querySelector("#nav-toggler").classList.toggle("active");
-    $('#navToggleContent').slideToggle()
-    $('#navbar').toggleClass("back-color-black")
+    navToggleContent.slideToggle();
+    navbar.toggleClass("back-color-black");
 });
 
-/**
- * Open up the right form when selected
- */
-$('#member-contact').on('click', function () {
+memberContact.on('click', () => {
     $([document.documentElement, document.body]).animate({
-        scrollTop: $("#form-container").offset().top-100
+        scrollTop: formContainer.offset().top - 100
     }, 1000);
-    setTimeout("showMemberForm()",500)
-})
+    setTimeout(() => {
+        partnerFormContent.hide();
+        memberFormContent.show("blind");
+    }, 500);
+});
 
-$('#partner-contact').on('click', function () {
+partnerContact.on('click', () => {
     $([document.documentElement, document.body]).animate({
-        scrollTop: $("#form-container").offset().top-100
+        scrollTop: formContainer.offset().top - 100
     }, 1000);
-    setTimeout("showPartnerForm()",500)
-})
+    setTimeout(() => {
+        memberFormContent.hide();
+        partnerFormContent.show("blind");
+    }, 500);
+});
 
-function showMemberForm(){
-    $('.partner-form-content').hide()
-    $('.member-form-content').show("blind")
-}
-function showPartnerForm(){
-    $('.member-form-content').hide()
-    $('.partner-form-content').show("blind")
-}
-
-/**
- * Change menu bar color when scrolling
- */
-window.onscroll = function(){
-    if(this.document.getElementById("main-content").getBoundingClientRect().y < 0){
-        $('#navbar').addClass("back-color")
-    }else{
-        $('#navbar').removeClass("back-color")
-    }
-}
+window.onscroll = () => {
+    navbar.toggleClass("back-color", mainContent[0].getBoundingClientRect().y < 0);
+};

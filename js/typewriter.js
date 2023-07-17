@@ -6,50 +6,26 @@
  * @param {Bool} cursorToRemove Remove cursor at the end
  * @param {function} callback (Optional) The function to execute once the typing is done
  */
-var Typewriter = function (iterationSpeed, destinationElement, inputText, cursorToRemove, callback) {
-  
-    iterateTypewriter = function (iterationSpeed, destinationElement, callback) {
-        return function (inputText, iTextPos) {
-
-
-            iArrLength = inputText.length
-
-            iTextPos++
-
-
-
-            destinationElement.innerText = inputText.substring(0, iTextPos);
-            if (iTextPos == iArrLength) {
-                if (cursorToRemove == true) {
-                    setTimeout("removeCursor()", 1000)
-                    if (callback != undefined) {
-                        callback()
-                    }
-                } else {
-                    if (callback != undefined) {
-                        callback()
-                    }
-                }
-
-
-
-
-            } else {
-
-                setTimeout("iterateTypewriter(\"" + inputText.replace("\"", "") + "\"," + iTextPos + ")", iterationSpeed);
-
-
-            }
-
+const Typewriter = (iterationSpeed, destinationElement, inputText, cursorToRemove, callback) => {
+    const iterateTypewriter = (inputText, iTextPos) => {
+      const iArrLength = inputText.length;
+      iTextPos++;
+      destinationElement.innerText = inputText.substring(0, iTextPos);
+      if (iTextPos === iArrLength) {
+        if (cursorToRemove) {
+          setTimeout(removeCursor, 1000);
+          callback && callback();
+        } else {
+          callback && callback();
         }
-
-
-
-    }(iterationSpeed, destinationElement, callback)
-
-    removeCursor = function () {
-        destinationElement.classList.remove("typewriter")
-    }
-
-    setTimeout("iterateTypewriter(\"" + inputText.replace("\"", "") + "\"," + 0 + ")", 1000);
-}
+      } else {
+        setTimeout(() => iterateTypewriter(inputText, iTextPos), iterationSpeed);
+      }
+    };
+  
+    const removeCursor = () => {
+      destinationElement.classList.remove("typewriter");
+    };
+  
+    setTimeout(() => iterateTypewriter(inputText, 0), 1000);
+  };
