@@ -6,7 +6,7 @@ document.addEventListener('touchstart', () => {
 });
 
 /**
- * Fade in the first row
+ * Fade in the first two rows
  */
 $('#row1').toggle("slide",1500);
 $('#row2').toggle("slide",{ direction: 'right' },1500);
